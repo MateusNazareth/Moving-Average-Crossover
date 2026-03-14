@@ -1,1 +1,17 @@
+UY when:
+  1. HTF: Fast EMA > Slow EMA        ← higher TF says uptrend
+  2. LTF: Fast EMA crosses above Slow EMA  ← entry signal
+  3. ADX > 25                        ← trend is real
+  4. ATR > ATR average               ← enough volatility
+  5. Price above Slow EMA            ← price confirms direction
+
+SKIP if HTF and LTF disagree        ← conflicting signals = no trade
+
+
+
+
+
+
+
 LTC/USD   - 5m/15m
+SOL/USD - 30m/1h
