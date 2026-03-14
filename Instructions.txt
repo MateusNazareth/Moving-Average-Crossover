@@ -1,0 +1,27 @@
+Step-by-step — everything you need right now:
+Step 1 — Create a dedicated bot wallet in Phantom
+Open Phantom → click your account name at the top → "Add / Connect Wallet" → "Create New Wallet". Give it a name like "Drift Bot". This generates a fresh keypair inside your existing Phantom app.
+Step 2 — Export the bot wallet's private key
+Switch to the new bot wallet in Phantom → Settings (gear icon) → Security & Privacy → Export Private Key → enter your Phantom password → copy the base58 string. Keep this somewhere safe temporarily, you'll need it in Step 5.
+Step 3 — Fund the bot wallet with SOL for gas
+Send 0.1 SOL from your main Phantom wallet to the bot wallet address. This covers transaction fees — Drift trades cost roughly 0.000005 SOL each so 0.1 SOL will last a very long time.
+Step 4 — Get a free Helius RPC endpoint
+Go to helius.dev → Sign up (free) → Dashboard → "Create API Key" → copy the mainnet RPC URL, it looks like:
+https://mainnet.helius-rpc.com/?api-key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+Step 5 — Create your .env file
+In the same folder as drift_bot.ipynb, create a plain text file named exactly .env with no other extension, containing:
+SOLANA_PRIVATE_KEY=your_base58_key_from_step_2
+HELIUS_RPC_URL=https://mainnet.helius-rpc.com/?api-key=your_key
+MODE=backtest
+Step 6 — Deposit USDC to Drift
+Go to app.drift.trade → connect your bot wallet in Phantom (switch to it first) → Deposit → choose USDC → enter your amount. Start with whatever you're comfortable losing entirely — $50–100 is sensible for a first live test. The USDC stays in your Drift sub-account, not in the wallet itself.
+If you don't have USDC yet: buy it on any CEX (Coinbase, Kraken, etc.) and withdraw to your bot wallet's Solana address, or swap SOL→USDC on Jupiter (jup.ag) directly in Phantom.
+Step 7 — Install dependencies
+Run this once in your terminal or the notebook's first cell:
+bashpip install pandas numpy ccxt python-dotenv solders anchorpy driftpy
+Step 8 — Run backtest first
+With MODE=backtest in your .env, run all cells. No wallet connection happens, it just validates your signals on historical data. Only change to MODE=live after you're satisfied with paper mode too.
+
+One thing to do before going live that most people skip:
+Go to app.drift.trade with your bot wallet connected and manually open and close one tiny BTC-PERP position by hand. This confirms your Drift sub-account is properly initialized on-chain — the bot assumes the account exists, and the first-ever deposit/trade on a fresh Drift account requires an initialization transaction that's easier to do through the UI once than to handle in code.
+That's genuinely everything. Once those 8 steps are done the notebook is ready to run.
